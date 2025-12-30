@@ -1,3 +1,12 @@
+export type UserRole = 'user' | 'admin' | 'super_admin';
+
+export type Profile = {
+    id: string;
+    email: string;
+    role: UserRole;
+    createdAt: Date;
+};
+
 export type Customer = {
     id: string;
     name: string;
@@ -93,6 +102,8 @@ export type Expense = {
     date: Date;
     description: string;
     amount: number;
+    vatAmount?: number;
+    isVat?: boolean;
     category?: string;
     recipient?: string;
     receiptUrl?: string;

@@ -4,12 +4,17 @@ import {
     FileText,
     Users,
     ShoppingBag,
+    ClipboardList,
     Settings,
     PieChart,
-    LogOut
+    LogOut,
+    Shield
 } from "lucide-react";
+import { useProfile } from "@/hooks/use-profile";
 
 export function Sidebar() {
+    const { profile } = useProfile();
+
     return (
         <div className="flex h-screen w-64 flex-col border-r bg-slate-900 text-white">
             <div className="flex h-14 items-center border-b border-slate-700 px-6">
@@ -73,6 +78,26 @@ export function Sidebar() {
                             สินค้า (Products)
                         </Link>
                     </li>
+                    <li>
+                        <Link
+                            href="/reports/tax"
+                            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-white"
+                        >
+                            <ClipboardList size={20} />
+                            รายงานภาษี (Tax Reports)
+                        </Link>
+                    </li>
+                    {profile?.role === 'super_admin' && (
+                        <li>
+                            <Link
+                                href="/admin"
+                                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-white border border-slate-700/50 mt-4 bg-slate-800/20"
+                            >
+                                <Shield size={20} className="text-yellow-500" />
+                                จัดการผู้ใช้งาน (Admin)
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </nav>
             <div className="border-t border-slate-700 p-4">

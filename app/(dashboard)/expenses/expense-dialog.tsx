@@ -50,6 +50,8 @@ const expenseSchema = z.object({
     category: z.string().min(1, "กรุณาเลือกหมวดหมู่"),
     date: z.date(),
     recipient: z.string().optional(),
+    isVat: z.boolean().default(false),
+    vatAmount: z.coerce.number().default(0),
 });
 
 interface ExpenseDialogProps {
@@ -80,6 +82,8 @@ export function ExpenseDialog({ onSuccess }: ExpenseDialogProps) {
             category: "",
             date: new Date(),
             recipient: "",
+            isVat: false,
+            vatAmount: 0,
         },
     });
 
@@ -222,6 +226,54 @@ export function ExpenseDialog({ onSuccess }: ExpenseDialogProps) {
                                 </FormItem>
                             )}
                         />
+
+                        <div className="flex items-center gap-6 p-4 bg-slate-50 rounded-lg">
+                            <FormField
+                                control={form.control}
+                                name="isVat"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                        <FormControl>
+                                            <input
+                                                type="checkbox"
+                                                checked={field.value}
+                                                onChange={(e) => {
+                                                    field.onChange(e.target.checked);
+                                                    if (e.target.checked) {
+                                                        const amount = form.getValues("amount");
+                                                        // Calc VAT 7% from total (including VAT)
+                                                        // VAT = total * 7 / 107
+                                                        const vat = (amount * 7) / 107;
+                                                        form.setValue("vatAmount", parseFloat(vat.toFixed(2)));
+                                                    } else {
+                                                        form.setValue("vatAmount", 0);
+                                                    }
+                                                }}
+                                                className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-600"
+                                            />
+                                        </FormControl>
+                                        <div className="space-y-1 leading-none">
+                                            <FormLabel>มีภาษีมูลค่าเพิ่ม (VAT 7%)</FormLabel>
+                                        </div>
+                                    </FormItem>
+                                )}
+                            />
+
+                            {form.watch("isVat") && (
+                                <FormField
+                                    control={form.control}
+                                    name="vatAmount"
+                                    render={({ field }) => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel className="text-xs">จำนวนภาษี (บาท)</FormLabel>
+                                            <FormControl>
+                                                <Input type="number" step="0.01" {...field} className="h-8" />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            )}
+                        </div>
 
                         <DialogFooter>
                             <Button type="submit" disabled={isLoading} className="bg-red-600 hover:bg-red-700">

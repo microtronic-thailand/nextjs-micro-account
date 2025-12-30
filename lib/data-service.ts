@@ -1,5 +1,37 @@
 import { supabase } from './supabase';
-import { Customer, Invoice, InvoiceItem, Product, Expense } from '@/types';
+import { Customer, Invoice, InvoiceItem, Product, Expense, Profile, UserRole, StockMovement, Quotation } from '@/types';
+
+// --- Profiles & RBAC ---
+
+export async function getProfile(id: string) {
+    const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (error) return null;
+    return data as Profile;
+}
+
+export async function getAllProfiles() {
+    const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+    if (error) throw error;
+    return data as Profile[];
+}
+
+export async function updateUserRole(userId: string, role: UserRole) {
+    const { error } = await supabase
+        .from('profiles')
+        .update({ role })
+        .eq('id', userId);
+
+    if (error) throw error;
+}
 
 // --- Expenses ---
 
@@ -14,7 +46,11 @@ export async function getExpenses() {
         throw error;
     }
 
-    return data as Expense[];
+    return data.map((e: any) => ({
+        ...e,
+        isVat: e.is_vat,
+        vatAmount: e.vat_amount
+    })) as Expense[];
 }
 
 export async function createExpense(expense: Partial<Expense>) {
@@ -23,6 +59,8 @@ export async function createExpense(expense: Partial<Expense>) {
         .insert([{
             description: expense.description,
             amount: expense.amount,
+            is_vat: expense.isVat,
+            vat_amount: expense.vatAmount,
             category: expense.category,
             date: expense.date,
             recipient: expense.recipient
