@@ -14,7 +14,6 @@ import {
     Loader2,
     Shield,
     User,
-    AdminIcon, // Using Shield instead
     MoreVertical,
     Check,
     X,
@@ -33,6 +32,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import {
+    DropdownMenu,
+    DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -89,6 +90,18 @@ export default function AdminDashboardPage() {
             toast.error("ไม่สามารถดำเนินการได้");
         }
     }
+
+    async function handleRoleChange(userId: string, newRole: UserRole) {
+        try {
+            await updateUserRole(userId, newRole);
+            toast.success(`เปลี่ยนสิทธิ์เป็น ${newRole} เรียบร้อยแล้ว`);
+            loadProfiles();
+        } catch (error) {
+            console.error(error);
+            toast.error("ไม่สามารถเปลี่ยนสิทธิ์ได้");
+        }
+    }
+
 
     if (profileLoading || (profile?.role === 'super_admin' && loading)) {
         return (
