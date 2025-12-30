@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Search, Loader2, Package, Trash2 } from "lucide-react";
+import { Search, Loader2, Package, Trash2, Settings2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { getProducts, deleteProduct } from "@/lib/data-service";
 import { Product } from "@/types";
 import { ProductDialog } from "./product-dialog";
 import { ProductQRCode } from "./product-qr";
+import { StockAdjustmentDialog } from "./stock-dialog";
 import {
     Table,
     TableBody,
@@ -35,6 +36,8 @@ export default function ProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [stockProduct, setStockProduct] = useState<Product | null>(null);
+    const [stockDialogOpen, setStockDialogOpen] = useState(false);
 
     const fetchProducts = async () => {
         try {
@@ -146,6 +149,18 @@ export default function ProductsPage() {
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex items-center gap-1">
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 text-blue-500 hover:text-blue-600 hover:bg-blue-50"
+                                                onClick={() => {
+                                                    setStockProduct(product);
+                                                    setStockDialogOpen(true);
+                                                }}
+                                                title="จัดการสต็อก"
+                                            >
+                                                <Settings2 className="h-4 w-4" />
+                                            </Button>
                                             <ProductQRCode product={product} />
                                             <AlertDialog>
                                                 <AlertDialogTrigger asChild>
@@ -183,6 +198,12 @@ export default function ProductsPage() {
                     </TableBody>
                 </Table>
             </div>
+            <StockAdjustmentDialog
+                product={stockProduct}
+                open={stockDialogOpen}
+                onOpenChange={setStockDialogOpen}
+                onSuccess={fetchProducts}
+            />
         </div>
     );
 }

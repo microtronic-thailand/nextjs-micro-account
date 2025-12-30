@@ -14,7 +14,8 @@ import {
     Plus,
     Save,
     Loader2,
-    Package
+    Package,
+    AlertTriangle
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -396,8 +397,10 @@ function InvoiceItemRow({ index, form, remove, products }: { index: number, form
                                                 key={product.id}
                                                 value={product.name}
                                                 onSelect={() => {
+                                                    form.setValue(`items.${index}.productId`, product.id);
                                                     form.setValue(`items.${index}.description`, product.name);
                                                     form.setValue(`items.${index}.price`, product.price);
+                                                    form.setValue(`items.${index}.unit`, product.unit);
                                                     setOpen(false);
                                                 }}
                                             >
@@ -429,12 +432,32 @@ function InvoiceItemRow({ index, form, remove, products }: { index: number, form
                     control={form.control}
                     name={`items.${index}.quantity`}
                     render={({ field }) => (
-                        <Input
-                            type="number"
-                            {...field}
-                            onChange={e => field.onChange(Number(e.target.value))}
-                            className="text-right border-0 shadow-none focus-visible:ring-0 px-0"
-                        />
+                        <div className="space-y-1">
+                            <Input
+                                type="number"
+                                {...field}
+                                onChange={e => field.onChange(Number(e.target.value))}
+                                className="text-right border-0 shadow-none focus-visible:ring-0 px-0"
+                            />
+                            {(() => {
+                                const productId = form.getValues(`items.${index}.productId`);
+                                const product = products.find(p => p.id === productId);
+                                if (product && field.value > product.stockQuantity) {
+                                    return (
+                                        <div className="flex items-center justify-end gap-1 text-[10px] text-red-500 font-medium whitespace-nowrap">
+                                            <AlertTriangle className="h-3 w-3" /> สต็อกไม่พอ (มี {product.stockQuantity})
+                                        </div>
+                                    );
+                                } else if (product) {
+                                    return (
+                                        <div className="text-[10px] text-muted-foreground text-right">
+                                            คงเหลือ {product.stockQuantity} {product.unit}
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })()}
+                        </div>
                     )}
                 />
             </TableCell>

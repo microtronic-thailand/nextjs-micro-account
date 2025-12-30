@@ -134,6 +134,16 @@ export async function createProduct(product: Partial<Product>) {
         throw error;
     }
 
+    // Record initial stock movement if > 0
+    if (product.stockQuantity && product.stockQuantity > 0) {
+        await recordStockMovement({
+            productId: data.id,
+            type: 'in',
+            quantity: product.stockQuantity,
+            notes: 'จำนวนตั้งต้นตอนสร้างสินค้า'
+        });
+    }
+
     return data as Product;
 }
 
@@ -317,6 +327,44 @@ export async function recordStockMovement(movement: Partial<StockMovement>) {
             await supabase.from('products').update({ stock_quantity: newStock }).eq('id', movement.productId);
         }
     }
+}
+
+export async function getStockMovements(productId: string) {
+    const { data, error } = await supabase
+        .from('stock_movements')
+        .select('*')
+        .eq('product_id', productId)
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error fetching stock movements:', error);
+        throw error;
+    }
+
+    return data.map((m: any) => ({
+        id: m.id,
+        productId: m.product_id,
+        type: m.type,
+        quantity: m.quantity,
+        referenceId: m.reference_id,
+        notes: m.notes,
+        createdAt: new Date(m.created_at)
+    })) as StockMovement[];
+}
+
+export async function adjustStock(params: {
+    productId: string;
+    type: 'in' | 'out' | 'adjustment';
+    quantity: number;
+    notes: string;
+}) {
+    // Record movement
+    await recordStockMovement({
+        productId: params.productId,
+        type: params.type,
+        quantity: params.quantity,
+        notes: params.notes
+    });
 }
 
 export async function getInvoiceById(id: string) {

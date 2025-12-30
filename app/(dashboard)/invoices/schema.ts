@@ -2,9 +2,11 @@ import * as z from "zod";
 
 export const invoiceItemSchema = z.object({
     id: z.string(),
+    productId: z.string().optional(),
     description: z.string().min(1, "กรุณาระบุรายการ"),
     quantity: z.number().min(1, "จำนวนต้องมากกว่า 0"),
     price: z.number().min(0, "ราคาต้องไม่ติดลบ"),
+    unit: z.string().optional(),
     discount: z.number().min(0).optional().default(0),
     vatRate: z.number().default(7),
 });

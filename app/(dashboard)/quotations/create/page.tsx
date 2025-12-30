@@ -14,7 +14,8 @@ import {
     Plus,
     Save,
     Loader2,
-    Package
+    Package,
+    AlertTriangle
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -410,8 +411,10 @@ function QuotationItemRow({ index, form, remove, products }: { index: number, fo
                                                 key={product.id}
                                                 value={product.name}
                                                 onSelect={() => {
+                                                    form.setValue(`items.${index}.productId`, product.id);
                                                     form.setValue(`items.${index}.description`, product.name);
                                                     form.setValue(`items.${index}.price`, product.price);
+                                                    form.setValue(`items.${index}.unit`, product.unit);
                                                     setOpen(false);
                                                 }}
                                             >
@@ -435,12 +438,26 @@ function QuotationItemRow({ index, form, remove, products }: { index: number, fo
                     control={form.control}
                     name={`items.${index}.quantity`}
                     render={({ field }) => (
-                        <Input
-                            type="number"
-                            {...field}
-                            onChange={e => field.onChange(Number(e.target.value))}
-                            className="text-right border-0 shadow-none focus-visible:ring-0 px-0"
-                        />
+                        <div className="space-y-1">
+                            <Input
+                                type="number"
+                                {...field}
+                                onChange={e => field.onChange(Number(e.target.value))}
+                                className="text-right border-0 shadow-none focus-visible:ring-0 px-0"
+                            />
+                            {(() => {
+                                const productId = form.getValues(`items.${index}.productId`);
+                                const product = products.find(p => p.id === productId);
+                                if (product) {
+                                    return (
+                                        <div className="text-[10px] text-muted-foreground text-right whitespace-nowrap">
+                                            คงเหลือ {product.stockQuantity} {product.unit}
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })()}
+                        </div>
                     )}
                 />
             </TableCell>
