@@ -72,7 +72,7 @@ export function ExpenseDialog({ onSuccess }: ExpenseDialogProps) {
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const form = useForm<z.infer<typeof expenseSchema>>({
+    const form = useForm({
         resolver: zodResolver(expenseSchema),
         defaultValues: {
             description: "",
