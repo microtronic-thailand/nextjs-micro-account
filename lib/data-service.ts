@@ -264,3 +264,177 @@ export async function getInvoiceById(id: string) {
     } as Invoice;
 }
 
+export async function getQuotations() {
+    const { data, error } = await supabase
+        .from('quotations')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    return data.map((q: any) => ({
+        id: q.id,
+        number: q.number,
+        date: new Date(q.date),
+        dueDate: new Date(q.due_date),
+        customerId: q.customer_id,
+        customerName: q.customer_name,
+        customerAddress: q.customer_address,
+        customerTaxId: q.customer_tax_id,
+        subtotal: q.subtotal,
+        discountTotal: q.discount_total,
+        vatTotal: q.vat_total,
+        grandTotal: q.grand_total,
+        status: q.status,
+        notes: q.notes,
+        createdAt: new Date(q.created_at)
+    })) as any[];
+}
+
+export async function createQuotation(quotation: any) {
+    const { data: qData, error: qError } = await supabase
+        .from('quotations')
+        .insert([{
+            number: quotation.number,
+            date: quotation.date,
+            due_date: quotation.dueDate,
+            customer_id: quotation.customerId,
+            customer_name: quotation.customerName,
+            customer_address: quotation.customerAddress,
+            customer_tax_id: quotation.customerTaxId,
+            subtotal: quotation.subtotal,
+            discount_total: quotation.discountTotal,
+            vat_total: quotation.vatTotal,
+            grand_total: quotation.grandTotal,
+            status: quotation.status,
+            notes: quotation.notes
+        }])
+        .select()
+        .single();
+
+    if (qError) throw qError;
+    const newQuotationId = qData.id;
+
+    const itemsToInsert = quotation.items.map((item: any) => ({
+        quotation_id: newQuotationId,
+        description: item.description,
+        quantity: item.quantity,
+        price: item.price,
+        discount: item.discount,
+        vat_rate: item.vatRate
+    }));
+
+    const { error: itemsError } = await supabase
+        .from('quotation_items')
+        .insert(itemsToInsert);
+
+    if (itemsError) {
+        await supabase.from('quotations').delete().eq('id', newQuotationId);
+        throw itemsError;
+    }
+
+    return newQuotationId;
+}
+
+export async function getQuotationById(id: string) {
+    const { data, error } = await supabase
+        .from('quotations')
+        .select(`
+            *,
+            quotation_items (*)
+        `)
+        .eq('id', id)
+        .single();
+
+    if (error) throw error;
+
+    return {
+        id: data.id,
+        number: data.number,
+        date: new Date(data.date),
+        dueDate: new Date(data.due_date),
+        customerId: data.customer_id,
+        customerName: data.customer_name,
+        customerAddress: data.customer_address,
+        customerTaxId: data.customer_tax_id,
+        subtotal: data.subtotal,
+        discountTotal: data.discount_total,
+        vatTotal: data.vat_total,
+        grandTotal: data.grand_total,
+        status: data.status,
+        notes: data.notes,
+        createdAt: new Date(data.created_at),
+        items: data.quotation_items.map((item: any) => ({
+            id: item.id,
+            description: item.description,
+            quantity: item.quantity,
+            price: item.price,
+            discount: item.discount,
+            vatRate: item.vat_rate
+        }))
+    } as any;
+}
+
+export async function convertQuotationToInvoice(quotationId: string) {
+    // 1. Get Quotation Data
+    const { data: quotation, error: qError } = await supabase
+        .from('quotations')
+        .select(`
+            *,
+            quotation_items (*)
+        `)
+        .eq('id', quotationId)
+        .single();
+
+    if (qError) throw qError;
+
+    // 2. Prepare Invoice Number
+    const invoiceNumber = `INV-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, '0')}${String(new Date().getDate()).padStart(2, '0')}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+
+    // 3. Create Invoice
+    const { data: invData, error: invError } = await supabase
+        .from('invoices')
+        .insert([{
+            number: invoiceNumber,
+            date: new Date(),
+            due_date: new Date(new Date().setDate(new Date().getDate() + 30)),
+            customer_id: quotation.customer_id,
+            customer_name: quotation.customer_name,
+            customer_address: quotation.customer_address,
+            customer_tax_id: quotation.customer_tax_id,
+            subtotal: quotation.subtotal,
+            discount_total: quotation.discount_total,
+            vat_total: quotation.vat_total,
+            grand_total: quotation.grand_total,
+            status: 'issued',
+            quotation_id: quotationId
+        }])
+        .select()
+        .single();
+
+    if (invError) throw invError;
+
+    // 4. Create Invoice Items
+    const invoiceItems = quotation.quotation_items.map((item: any) => ({
+        invoice_id: invData.id,
+        description: item.description,
+        quantity: item.quantity,
+        price: item.price,
+        discount: item.discount,
+        vat_rate: item.vat_rate
+    }));
+
+    const { error: itemsError } = await supabase
+        .from('invoice_items')
+        .insert(invoiceItems);
+
+    if (itemsError) throw itemsError;
+
+    // 5. Update Quotation Status
+    await supabase
+        .from('quotations')
+        .update({ status: 'invoiced' })
+        .eq('id', quotationId);
+
+    return invData.id;
+}

@@ -19,8 +19,9 @@ export type Product = {
 };
 
 export type InvoiceStatus = 'draft' | 'issued' | 'paid' | 'overdue' | 'cancelled';
+export type QuotationStatus = 'draft' | 'sent' | 'accepted' | 'rejected' | 'invoiced' | 'expired';
 
-export type InvoiceItem = {
+export type LineItem = {
     id: string;
     productId?: string;
     description: string;
@@ -28,6 +29,27 @@ export type InvoiceItem = {
     price: number;
     discount: number; // ส่วนลดต่อรายการ (บาท)
     vatRate: number; // 0 or 7
+};
+
+export type InvoiceItem = LineItem;
+
+export type Quotation = {
+    id: string;
+    number: string;
+    date: Date;
+    dueDate: Date;
+    customerId: string;
+    customerName: string;
+    customerAddress?: string;
+    customerTaxId?: string;
+    items: LineItem[];
+    subtotal: number;
+    discountTotal: number;
+    vatTotal: number;
+    grandTotal: number;
+    status: QuotationStatus;
+    notes?: string;
+    createdAt: Date;
 };
 
 export type Invoice = {
