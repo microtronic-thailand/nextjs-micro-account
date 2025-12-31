@@ -26,7 +26,7 @@ export default function PricingLandingPage() {
     const mainPlans = [
         {
             name: "Standard",
-            price: "15,000",
+            price: "30,000",
             subtitle: "เหมาะสำหรับทีม IT ที่ต้องการติดตั้งเอง",
             features: [
                 "รับ Source Code 100% (Next.js)",
@@ -42,7 +42,7 @@ export default function PricingLandingPage() {
         },
         {
             name: "Professional",
-            price: "25,000",
+            price: "50,000",
             subtitle: "แผนยอดนิยมสำหรับ SME พร้อมใช้งาน",
             features: [
                 "รวม Software ทุกโมดูล",
@@ -59,7 +59,7 @@ export default function PricingLandingPage() {
         },
         {
             name: "Enterprise",
-            price: "60,000",
+            price: "80,000",
             subtitle: "ดูแลครบวงจรสำหรับองค์กรขนาดกลาง",
             features: [
                 "Software + บริการติดตั้งครบวงจร",
@@ -88,8 +88,9 @@ export default function PricingLandingPage() {
         <div className="min-h-screen bg-white font-sans text-slate-900 scroll-smooth">
             {/* Header */}
             <header className="flex h-16 items-center justify-between border-b px-6 lg:px-12 bg-white sticky top-0 z-50">
-                <Link href="/" className="text-2xl font-bold text-blue-600">MicroAccount</Link>
+                <Link href="/" className="text-2xl font-bold text-blue-600">MicroFormula</Link>
                 <nav className="hidden gap-6 md:flex items-center text-slate-600">
+                    <Link href="https://microtronic.biz" target="_blank" className="text-sm font-medium hover:text-blue-600 transition-colors">Microtronic.biz</Link>
                     <Link href="/#features" className="text-sm font-medium hover:text-blue-600 transition-colors">คุณสมบัติ</Link>
                     <Link href="/pricing-details" className="text-sm font-medium text-blue-600">ราคา</Link>
                     <Link href="/#contact" className="text-sm font-medium hover:text-blue-600 transition-colors">ติดต่อเรา</Link>
@@ -213,7 +214,7 @@ export default function PricingLandingPage() {
                 <section className="py-20 bg-blue-600 relative overflow-hidden">
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
                     <div className="container mx-auto px-6 text-center relative z-10 text-white">
-                        <h2 className="text-4xl font-bold mb-8 italic">"ทำไมต้องเลือก MicroAccount?"</h2>
+                        <h2 className="text-4xl font-bold mb-8 italic">"ทำไมต้องเลือก MicroFormula?"</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-4xl mx-auto uppercase tracking-tighter">
                             <div>
                                 <div className="text-4xl font-black mb-2">0.-</div>
@@ -270,7 +271,7 @@ export default function PricingLandingPage() {
                             </Link>
                         </div>
                         <div className="mt-8 text-slate-400 text-sm">
-                            MicroAccount - ระบบบัญชีที่คุณไว้วางใจได้เสมอ
+                            MicroFormula - ระบบบัญชีที่คุณไว้วางใจได้เสมอ
                         </div>
                     </div>
                 </section>
@@ -283,7 +284,7 @@ export default function PricingLandingPage() {
                         <div className="col-span-2 space-y-4">
                             <h3 className="text-white text-2xl font-bold italic tracking-tighter flex items-center gap-2">
                                 <div className="h-6 w-6 bg-blue-600 rounded flex items-center justify-center text-[10px] non-italic">M</div>
-                                MicroAccount
+                                MicroFormula
                             </h3>
                             <p className="max-w-sm">ซอฟต์แวร์บริหารจัดการบัญชีที่พัฒนาโดยคนไทย เพื่อ SME ไทย ยกระดับธุรกิจของคุณเข้าสู่ยุคดิจิทัลอย่างยั่งยืน</p>
                         </div>

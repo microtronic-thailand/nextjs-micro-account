@@ -30,8 +30,9 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col scroll-smooth">
       <header className="flex h-16 items-center justify-between border-b px-6 lg:px-12 bg-white sticky top-0 z-50">
-        <div className="text-2xl font-bold text-blue-600">MicroAccount</div>
+        <div className="text-2xl font-bold text-blue-600">MicroFormula</div>
         <nav className="hidden gap-6 md:flex text-slate-600">
+          <Link href="https://microtronic.biz" target="_blank" className="text-sm font-medium hover:text-blue-600 transition-colors">Microtronic.biz</Link>
           <Link href="#features" className="text-sm font-medium hover:text-blue-600 transition-colors">คุณสมบัติ</Link>
           <Link href="/pricing-details" className="text-sm font-medium hover:text-blue-600 transition-colors">ราคา</Link>
           <Link href="#contact" className="text-sm font-medium hover:text-blue-600 transition-colors">ติดต่อเรา</Link>
@@ -90,7 +91,7 @@ export default function Home() {
             <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
               <div className="border border-slate-700 rounded-2xl p-8 bg-slate-800/50">
                 <h3 className="text-xl font-bold mb-2">Standard</h3>
-                <div className="text-3xl font-bold mb-4">15,000.-</div>
+                <div className="text-3xl font-bold mb-4">30,000.-</div>
                 <ul className="mb-8 space-y-3 text-sm text-slate-300">
                   <li>✔ ได้ Source Code ทั้งหมด</li>
                   <li>✔ ติดตั้งเองถาวร</li>
@@ -101,7 +102,7 @@ export default function Home() {
               <div className="border-2 border-blue-500 rounded-2xl p-8 bg-slate-800 shadow-2xl scale-105 relative">
                 <div className="bg-blue-600 text-xs font-bold py-1 px-3 rounded-full absolute -top-3 left-1/2 -translate-x-1/2 uppercase">Recommended</div>
                 <h3 className="text-xl font-bold mb-2">Professional</h3>
-                <div className="text-3xl font-bold mb-4">25,000.-</div>
+                <div className="text-3xl font-bold mb-4">50,000.-</div>
                 <ul className="mb-8 space-y-3 text-sm text-slate-300">
                   <li>✔ บริการติดตั้งให้ฟรี</li>
                   <li>✔ ปรับแก้ข้อมูลเบื้องต้น</li>
@@ -111,7 +112,7 @@ export default function Home() {
               </div>
               <div className="border border-slate-700 rounded-2xl p-8 bg-slate-800/50">
                 <h3 className="text-xl font-bold mb-2">Enterprise</h3>
-                <div className="text-3xl font-bold mb-4">60,000.-</div>
+                <div className="text-3xl font-bold mb-4">80,000.-</div>
                 <ul className="mb-8 space-y-3 text-sm text-slate-300">
                   <li>✔ Software + ติดตั้งครบวงจร</li>
                   <li>✔ ปรับแก้ข้อมูล & โมดูล</li>
@@ -144,8 +145,8 @@ export default function Home() {
 
       <footer className="border-t py-12 text-center text-sm text-slate-500 bg-slate-50">
         <div className="container mx-auto px-4">
-          <div className="mb-4 font-bold text-slate-900">MicroAccount</div>
-          <p>© {new Date().getFullYear()} MicroAccount by WebShardow. All rights reserved.</p>
+          <div className="mb-4 font-bold text-slate-900">MicroFormula</div>
+          <p>© {new Date().getFullYear()} MicroFormula by WebShardow. All rights reserved.</p>
         </div>
       </footer>
     </div>
