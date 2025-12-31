@@ -124,13 +124,24 @@ export function Sidebar() {
                     <Settings size={20} />
                     ตั้งค่า (Settings)
                 </Link>
-                <Link
-                    href="/manual"
+                <a
+                    href="https://microtronic-thailand.github.io/app-micro-formula-manual-docs/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-white"
                 >
                     <BookOpen size={20} />
                     คู่มือการใช้งาน (Manual)
-                </Link>
+                </a>
+                <a
+                    href="https://microtronic-thailand.github.io/app-micro-formula-dev-docs/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-white"
+                >
+                    <Shield size={20} className="text-blue-400" />
+                    เอกสารนักพัฒนา (Dev Docs)
+                </a>
                 <Link
                     href="/pricing"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-white"

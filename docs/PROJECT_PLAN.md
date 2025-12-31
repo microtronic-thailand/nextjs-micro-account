@@ -8,7 +8,7 @@
 > ย้ายการ์ดเหล่านี้ไปที่ช่อง **Done**
 
 - [x] **Setup Project Structure**: สร้าง Next.js + Tailwind + Shadcn UI
-- [x] **Database Design**: ออกแบบและสร้างตาราง Customers, Invoices บน Supabase
+- [x] **Database Design**: ออกแบบและสร้างตาราง Customers, Invoices, Quotations, Products, Expenses ครบสมบูรณ์บน Supabase
 - [x] **Authentication System**: สร้างหน้า Login/Register และเชื่อมต่อ Supabase Auth
 - [x] **Customer Management**: ระบบจัดการรายชื่อลูกค้า (ดูรายชื่อ, เพิ่มลูกค้า)
 - [x] **Invoice Management**: ระบบจัดการใบแจ้งหนี้ (ดูรายการ, สร้างใบแจ้งหนี้ใหม่)

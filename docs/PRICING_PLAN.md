@@ -36,6 +36,6 @@
 
 ### 📞 สนใจสั่งซื้อหรือสอบถาม
 **WebShardow Dev Team**
-- **Email**: business@webshardow.com
+- **Email**: grids@microtronic.biz
 - **Line**: @webshardow
 - **Website**: [www.webshardow.com](https://www.webshardow.com)

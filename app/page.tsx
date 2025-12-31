@@ -6,16 +6,26 @@ import { useProfile } from "@/hooks/use-profile";
 import Link from "next/link";
 import { AuthNav } from "@/components/layout/auth-nav";
 import { HeroButtons } from "@/components/layout/hero-buttons";
+import { disableDemoMode, isDemoMode } from "@/lib/mock-auth";
+import { supabase } from "@/lib/supabase";
 
 export default function Home() {
   const { profile, loading } = useProfile();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && profile) {
-      router.push("/dashboard");
+    // When returning to home page, clear demo session
+    // This satisfies the requirement "เวลากดย้อนกลับไม่ต้องจดจำการล็อกอิน"
+    if (isDemoMode()) {
+      disableDemoMode();
+      // Optional: force reload or state update if needed
+      window.location.reload();
     }
-  }, [profile, loading, router]);
+
+    // Also sign out from Supabase if any real session exists
+    // to ensure a completely fresh start on the landing page
+    supabase.auth.signOut();
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col scroll-smooth">
@@ -121,7 +131,7 @@ export default function Home() {
             <div className="flex flex-wrap justify-center gap-8">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600">📧</div>
-                <div className="text-left font-medium">business@webshardow.com</div>
+                <div className="text-left font-medium">grids@microtronic.biz</div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 bg-green-50 rounded-full flex items-center justify-center text-green-600">💬</div>

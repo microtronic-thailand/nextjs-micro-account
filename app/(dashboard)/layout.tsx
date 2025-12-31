@@ -20,7 +20,7 @@ export default function DashboardLayout({
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
-        if (!loading && !user) {
+        if (!loading && !profile) {
             router.push("/login");
             return;
         }
@@ -51,8 +51,6 @@ export default function DashboardLayout({
             </div>
         );
     }
-
-    if (!user) return null;
 
     if (!profile) {
         return (

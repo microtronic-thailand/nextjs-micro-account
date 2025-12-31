@@ -181,7 +181,15 @@ export function ExpenseDialog({ onSuccess }: ExpenseDialogProps) {
                                     <FormItem>
                                         <FormLabel>จำนวนเงิน (บาท) <span className="text-red-500">*</span></FormLabel>
                                         <FormControl>
-                                            <Input type="number" step="0.01" {...field} />
+                                            <Input
+                                                type="number"
+                                                step="0.01"
+                                                value={field.value as number}
+                                                onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                                                onBlur={field.onBlur}
+                                                name={field.name}
+                                                ref={field.ref}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -240,7 +248,7 @@ export function ExpenseDialog({ onSuccess }: ExpenseDialogProps) {
                                                 onChange={(e) => {
                                                     field.onChange(e.target.checked);
                                                     if (e.target.checked) {
-                                                        const amount = form.getValues("amount");
+                                                        const amount = form.getValues("amount") as number;
                                                         // Calc VAT 7% from total (including VAT)
                                                         // VAT = total * 7 / 107
                                                         const vat = (amount * 7) / 107;
@@ -267,7 +275,16 @@ export function ExpenseDialog({ onSuccess }: ExpenseDialogProps) {
                                         <FormItem className="flex-1">
                                             <FormLabel className="text-xs">จำนวนภาษี (บาท)</FormLabel>
                                             <FormControl>
-                                                <Input type="number" step="0.01" {...field} className="h-8" />
+                                                <Input
+                                                    type="number"
+                                                    step="0.01"
+                                                    value={field.value as number}
+                                                    onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                                                    onBlur={field.onBlur}
+                                                    name={field.name}
+                                                    ref={field.ref}
+                                                    className="h-8"
+                                                />
                                             </FormControl>
                                         </FormItem>
                                     )}

@@ -7,7 +7,7 @@
 ## 📅 สถานะล่าสุด (Current Status)
 **Update:** 30 ธันวาคม 2025
 **Phase:** 1.0 - Project Initialization & Structure
-**Status:** ✅ โครงสร้างพื้นฐานพร้อมใช้งาน (Ready for Dev)
+**Status:** ✅ โครงสร้างพื้นฐานและ Database Schema สมบูรณ์ (Ready for Full Integration)
 
 ---
 
@@ -21,8 +21,8 @@
 - [x] **Layout Setup**: สร้าง Sidebar, Header และโครงสร้าง Dashboard
 
 ### Phase 2: ระบบบัญชีเบื้องต้น (Core Accounting) 🚧 *กำลังดำเนินการ*
-- [ ] **Database Setup**: ออกแบบ Schema (Tables: users, invoices, expenses, customers)
-- [ ] **Authentication**: ระบบ Login/Register (Clerk หรือ NextAuth/Supabase Auth)
+- [x] **Database Setup**: ออกแบบ Schema ทั้งหมด (Customers, Invoices, Quotations, Products, Expenses, Stocks)
+- [x] **Authentication**: ระบบ Login/Register (Supabase Auth + Profiles Table)
 - [ ] **Invoices Module**: หน้าสร้าง, แก้ไข, และดูรายการใบแจ้งหนี้
 - [ ] **Customers Module**: หน้าจัดการรายชื่อลูกค้า
 
@@ -68,9 +68,9 @@ app/
 - **Dashboard UI**: Mockup การ์ดแสดงผล (รายรับ, รายจ่าย, กำไร) และตารางรายการล่าสุด
 
 ### 5. Database Schema (Supabase)
-- **Defined SQL Schema**: `supabase/schema.sql` (ตาราง Customers, Invoices, Invoice Items)
-- **RLS Policies**: กำหนด Row Level Security เบื้องต้นเพื่อความปลอดภัยของข้อมูล
-- **Data Service**: สร้าง `lib/data-service.ts` เตรียมพร้อมสำหรับการเชื่อมต่อ API แทน Mock Data
+- **Defined SQL Schema**: `supabase/schema.sql` (รวบรวมตารางทั้งหมด: Customers, Invoices, Quotations, Products, Expenses, Stock Movements, Settings, Announcements)
+- **RBAC Policies**: กำหนด Row Level Security ครบถ้วน รวมถึงระบบ Admin/Super Admin
+- **Data Service**: สร้าง `lib/data-service.ts` เชื่อมต่อ API ครบทุกโมดูล
 
 ---
 

@@ -84,7 +84,7 @@ export default function CreateQuotationPage() {
                 { id: "1", description: "", quantity: 1, price: 0, discount: 0, vatRate: 7 }
             ],
             vatRate: 7,
-        } as any,
+        },
     });
 
     const { fields, append, remove } = useFieldArray({

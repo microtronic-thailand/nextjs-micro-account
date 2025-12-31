@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { getProfile } from '@/lib/data-service';
 import { Profile } from '@/types';
 import { User } from '@supabase/supabase-js';
+import { isDemoMode, getDemoProfile } from '@/lib/mock-auth';
 
 export function useProfile() {
     const [user, setUser] = useState<User | null>(null);
@@ -17,6 +18,17 @@ export function useProfile() {
         async function fetchAll() {
             setLoading(true);
             try {
+                // Check if in demo mode first
+                if (isDemoMode()) {
+                    if (isMounted) {
+                        const demoProfile = getDemoProfile();
+                        setProfile(demoProfile);
+                        setUser(null); // No real user in demo mode
+                        setLoading(false);
+                    }
+                    return;
+                }
+
                 // 1. Check local session (fast)
                 const { data: { session } } = await supabase.auth.getSession();
                 let currentUser = session?.user || null;
@@ -56,6 +68,15 @@ export function useProfile() {
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
             if (!isMounted) return;
+
+            // Check demo mode on auth state change
+            if (isDemoMode()) {
+                const demoProfile = getDemoProfile();
+                setProfile(demoProfile);
+                setUser(null);
+                setLoading(false);
+                return;
+            }
 
             const currentUser = session?.user || null;
             setUser(currentUser);

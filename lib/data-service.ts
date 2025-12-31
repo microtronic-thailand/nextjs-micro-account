@@ -1,4 +1,6 @@
 import { supabase } from './supabase';
+import { isDemoMode } from './mock-auth';
+import { MOCK_CUSTOMERS, MOCK_PRODUCTS, MOCK_INVOICES, MOCK_EXPENSES, MOCK_QUOTATIONS } from './mock-data';
 import {
     Customer,
     Invoice,
@@ -74,6 +76,10 @@ export async function updateUserRole(userId: string, role: UserRole) {
 // --- Expenses ---
 
 export async function getExpenses() {
+    if (isDemoMode()) {
+        return MOCK_EXPENSES;
+    }
+
     const { data, error } = await supabase
         .from('expenses')
         .select('*')
@@ -129,6 +135,10 @@ export async function deleteExpense(id: string) {
 // --- Products ---
 
 export async function getProducts() {
+    if (isDemoMode()) {
+        return MOCK_PRODUCTS;
+    }
+
     const { data, error } = await supabase
         .from('products')
         .select('*')
@@ -200,6 +210,10 @@ export async function deleteProduct(id: string) {
 // --- Customers ---
 
 export async function getCustomers() {
+    if (isDemoMode()) {
+        return MOCK_CUSTOMERS;
+    }
+
     const { data, error } = await supabase
         .from('customers')
         .select('*')
@@ -238,6 +252,10 @@ export async function createCustomer(customer: Partial<Customer>) {
 // --- Invoices ---
 
 export async function getInvoices() {
+    if (isDemoMode()) {
+        return MOCK_INVOICES;
+    }
+
     const { data, error } = await supabase
         .from('invoices')
         .select('*')
@@ -447,6 +465,10 @@ export async function getInvoiceById(id: string) {
 }
 
 export async function getQuotations() {
+    if (isDemoMode()) {
+        return MOCK_QUOTATIONS;
+    }
+
     const { data, error } = await supabase
         .from('quotations')
         .select('*')

@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { supabase } from "@/lib/supabase";
+import { enableDemoMode } from "@/lib/mock-auth";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -101,6 +102,13 @@ export default function LoginPage() {
         }
     }
 
+    function handleDemoLogin() {
+        enableDemoMode();
+        toast.success("เข้าสู่โหมดทดลองใช้งาน! 🚀");
+        router.push("/dashboard");
+        router.refresh();
+    }
+
     return (
         <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
@@ -151,6 +159,24 @@ export default function LoginPage() {
                                 </Button>
                             </form>
                         </Form>
+
+                        <div className="relative my-6">
+                            <div className="absolute inset-0 flex items-center">
+                                <span className="w-full border-t" />
+                            </div>
+                            <div className="relative flex justify-center text-xs uppercase">
+                                <span className="bg-background px-2 text-muted-foreground">หรือ</span>
+                            </div>
+                        </div>
+
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={handleDemoLogin}
+                            className="w-full border-2 border-blue-500 text-blue-600 hover:bg-blue-50 hover:text-blue-700 font-semibold"
+                        >
+                            🚀 ทดลองใช้งาน Demo (ไม่ต้องสมัคร)
+                        </Button>
                     </CardContent>
                 </Card>
             </TabsContent>

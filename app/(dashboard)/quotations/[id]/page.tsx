@@ -21,10 +21,10 @@ export default function QuotationDetailPage() {
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
 
-    const componentRef = useRef(null);
+    const componentRef = useRef<HTMLDivElement>(null);
 
     const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
+        contentRef: componentRef,
         documentTitle: `Quotation-${quotation?.number}`,
     });
 

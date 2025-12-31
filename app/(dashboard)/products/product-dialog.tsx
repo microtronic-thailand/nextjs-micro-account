@@ -40,11 +40,11 @@ import {
 const productSchema = z.object({
     name: z.string().min(1, "กรุณากรอกชื่อสินค้า"),
     sku: z.string().optional(),
-    price: z.coerce.number().min(0, "ราคาต้องไม่ต่ำกว่า 0"),
+    price: z.number().min(0, "ราคาต้องไม่ต่ำกว่า 0"),
     unit: z.string().min(1, "กรุณาระบุหน่วยนับ"),
     description: z.string().optional(),
-    stockQuantity: z.coerce.number().min(0, "จำนวนต้องไม่ต่ำกว่า 0").default(0),
-    minStockLevel: z.coerce.number().min(0, "จำนวนต้องไม่ต่ำกว่า 0").default(0),
+    stockQuantity: z.number().min(0, "จำนวนต้องไม่ต่ำกว่า 0"),
+    minStockLevel: z.number().min(0, "จำนวนต้องไม่ต่ำกว่า 0"),
 });
 
 interface ProductDialogProps {
@@ -150,7 +150,15 @@ export function ProductDialog({ onSuccess }: ProductDialogProps) {
                                 <FormItem>
                                     <FormLabel>ราคาต่อหน่วย (บาท) <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
-                                        <Input type="number" step="0.01" {...field} />
+                                        <Input
+                                            type="number"
+                                            step="0.01"
+                                            value={field.value as number}
+                                            onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                                            onBlur={field.onBlur}
+                                            name={field.name}
+                                            ref={field.ref}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -165,7 +173,14 @@ export function ProductDialog({ onSuccess }: ProductDialogProps) {
                                     <FormItem>
                                         <FormLabel>จำนวนสต็อกตั้งต้น</FormLabel>
                                         <FormControl>
-                                            <Input type="number" {...field} />
+                                            <Input
+                                                type="number"
+                                                value={field.value as number}
+                                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                                onBlur={field.onBlur}
+                                                name={field.name}
+                                                ref={field.ref}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -178,7 +193,14 @@ export function ProductDialog({ onSuccess }: ProductDialogProps) {
                                     <FormItem>
                                         <FormLabel>จุดแจ้งเตือนสินค้าใกล้หมด</FormLabel>
                                         <FormControl>
-                                            <Input type="number" {...field} />
+                                            <Input
+                                                type="number"
+                                                value={field.value as number}
+                                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                                onBlur={field.onBlur}
+                                                name={field.name}
+                                                ref={field.ref}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

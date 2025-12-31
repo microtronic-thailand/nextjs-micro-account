@@ -263,7 +263,7 @@ export default function PricingLandingPage() {
                                     <MousePointerClick className="mr-2 h-5 w-5" /> ติดต่อเราทาง LINE
                                 </Button>
                             </Link>
-                            <Link href="mailto:business@webshardow.com">
+                            <Link href="mailto:grids@microtronic.biz">
                                 <Button size="lg" variant="outline" className="rounded-xl px-10 h-16 text-lg border-2 border-slate-900 hover:bg-slate-900 hover:text-white transition-all">
                                     ส่งอีเมลสอบถาม
                                 </Button>

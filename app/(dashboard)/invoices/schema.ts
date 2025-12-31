@@ -7,8 +7,8 @@ export const invoiceItemSchema = z.object({
     quantity: z.number().min(1, "จำนวนต้องมากกว่า 0"),
     price: z.number().min(0, "ราคาต้องไม่ติดลบ"),
     unit: z.string().optional(),
-    discount: z.number().min(0).optional().default(0),
-    vatRate: z.number().default(7),
+    discount: z.number().min(0),
+    vatRate: z.number().min(0).max(100),
 });
 
 export const invoiceSchema = z.object({
